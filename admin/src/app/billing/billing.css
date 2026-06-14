@@ -1,0 +1,482 @@
+/* ==========================================================================
+   1. CSS VARIABLES (Enterprise Design Tokens)
+   ========================================================================== */
+:root {
+  --primary: #4f46e5;       /* Indigo Accent */
+  --primary-hover: #4338ca;
+  --success: #16a34a;       /* Forest Green for WhatsApp/UPI */
+  --danger: #dc2626;        /* Clean Red for Destructive Actions */
+  
+  /* Neutral Palette */
+  --bg-main: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-neutral: #f8fafc;
+  --border-color: #e2e8f0;
+  
+  /* Text Palette */
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  
+  /* Shadows & Radius */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --radius-lg: 12px;
+  --radius-md: 8px;
+}
+
+/* ==========================================================================
+   2. CORE POS LAYOUT
+   ========================================================================== */
+.billing-page {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  padding: 24px;
+  background-color: var(--bg-main);
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text-main);
+}
+
+.billing-left {
+  flex: 1;
+  min-width: 400px;
+}
+
+.billing-right {
+  flex: 1.4;
+  display: flex;
+  justify-content: center;
+  position: sticky;
+  top: 24px; /* Keeps your live preview pinned while you scroll long lists */
+}
+
+/* ==========================================================================
+   3. POS PANEL / FORM CONTROLS
+   ========================================================================== */
+.billing-card {
+  background: var(--bg-card);
+  padding: 32px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
+}
+
+.billing-card h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.billing-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 24px 0 12px;
+  color: var(--text-muted);
+}
+
+.billing-card input,
+.billing-card select {
+  width: 100%;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  transition: all 0.2s ease;
+  background-color: var(--bg-neutral);
+}
+
+.billing-card input:focus,
+.billing-card select:focus {
+  background-color: var(--bg-card);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  outline: none;
+}
+
+/* Dynamic Product Row Grid */
+.product-row {
+  display: grid;
+  grid-template-columns: 2fr 80px 120px 40px;
+  gap: 12px;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+.product-row input {
+  margin-bottom: 0; /* Clear baseline reset */
+}
+
+/* Button Configurations */
+.add-btn, .print-btn, .whatsapp-btn, .remove-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.add-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--bg-neutral);
+  border: 1px dashed var(--border-color);
+  color: var(--primary);
+}
+.add-btn:hover {
+  background-color: #eceff1;
+}
+
+.remove-btn {
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 16px;
+  padding: 8px;
+}
+.remove-btn:hover {
+  color: var(--danger);
+  background-color: rgba(220, 38, 38, 0.08);
+}
+
+/* Summary Panel */
+.summary-box {
+  margin-top: 24px;
+  padding: 20px;
+  background: var(--bg-neutral);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+
+.summary-box p {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.summary-box h2 {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+  color: var(--primary);
+}
+
+.actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.print-btn, .whatsapp-btn {
+  flex: 1;
+  padding: 14px;
+  color: #ffffff;
+}
+
+.print-btn { background: var(--primary); }
+.print-btn:hover { background: var(--primary-hover); }
+
+.whatsapp-btn { background: var(--success); }
+.whatsapp-btn:hover { background: #15803d; }
+
+
+/* ==========================================================================
+   4. LIVE INVOICE PRINT PREVIEW (A4 Document Styles)
+   ========================================================================== */
+.invoice-paper {
+  width: 100%;
+  max-width: 800px;
+  min-height: 1040px; /* Gives room for natural standard padding breaks */
+  background: #ffffff;
+  padding: 50px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  box-sizing: border-box;
+}
+
+.invoice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 2px solid var(--text-main);
+  padding-bottom: 24px;
+}
+
+.invoice-header .brand h1 {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin: 0 0 6px 0;
+}
+
+.invoice-header .brand p,
+.invoice-header .invoice-meta p {
+  margin: 2px 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.invoice-header .invoice-meta {
+  text-align: right;
+}
+
+.invoice-header .invoice-meta h2 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin: 0 0 6px 0;
+  color: var(--primary);
+}
+
+.invoice-info {
+  display: flex;
+  justify-content: space-between;
+  margin: 24px 0;
+  font-size: 14px;
+}
+
+.customer-section {
+  background-color: var(--bg-neutral);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-bottom: 24px;
+  border: 1px solid var(--border-color);
+}
+
+.customer-section p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+/* Corporate Data Table */
+.invoice-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+.invoice-table th {
+  background: var(--text-main);
+  color: #ffffff;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.invoice-table th,
+.invoice-table td {
+  border: 1px solid var(--border-color);
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 13px;
+}
+
+.invoice-table tr:nth-child(even) td {
+  background-color: var(--bg-neutral);
+}
+
+/* Preview Summary Grid Layout */
+.totals-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 32px;
+}
+
+.totals-section .calculations {
+  width: 300px;
+}
+
+.totals-section .calculations p {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin: 6px 0;
+  color: var(--text-muted);
+}
+
+.totals-section .calculations h3 {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--text-main);
+  color: var(--text-main);
+}
+
+/* Standard Bottom Modules */
+.payment-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px dashed var(--text-muted);
+}
+
+.qr-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.bank-details {
+  text-align: right;
+  font-size: 13px;
+}
+
+.bank-details h3 {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.bank-details p {
+  margin: 2px 0;
+  color: var(--text-muted);
+}
+
+.invoice-footer {
+  margin-top: 64px;
+  border-top: 1px dashed var(--border-color);
+  padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.invoice-footer .thanks-msg {
+  font-style: italic;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.invoice-footer .signature-space {
+  text-align: center;
+  width: 200px;
+}
+
+.invoice-footer .signature-line {
+  border-bottom: 1px solid var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.invoice-footer .signature-space p {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+
+/* ==========================================================================
+   5. RESPONSIVE MEDIA QUERIES (Adaptive UX)
+   ========================================================================== */
+@media (max-width: 1200px) {
+  .billing-page {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .billing-left, .billing-right {
+    width: 100%;
+    max-width: 800px;
+    min-width: unset;
+  }
+  
+  .billing-right {
+    position: static;
+  }
+}
+
+@media (max-width: 600px) {
+  .product-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+  }
+  
+  .product-row input:last-of-type {
+    margin-bottom: 8px;
+  }
+  
+  .actions {
+    flex-direction: column;
+  }
+  
+  .invoice-paper {
+    padding: 24px;
+  }
+  
+  .invoice-header, .totals-section, .payment-section, .invoice-footer {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: left;
+    gap: 16px;
+  }
+  
+  .invoice-header .invoice-meta, .bank-details, .invoice-footer .signature-space {
+    text-align: left;
+    width: 100%;
+  }
+}
+
+
+/* ==========================================================================
+   6. ENTERPRISE PRINT ENGINE
+   ========================================================================== */
+@media print {
+  /* Hide every part of the screen interface */
+  body, .billing-page {
+    background: #ffffff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .no-print,
+  .billing-left,
+  .actions,
+  .add-btn,
+  .remove-btn {
+    display: none !important;
+  }
+
+  .billing-right {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: block !important;
+    position: static !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .invoice-paper {
+    border: none !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  /* Prevent rows from splitting horizontally across standard paper bounds */
+  tr {
+    page-break-inside: avoid;
+  }
+}

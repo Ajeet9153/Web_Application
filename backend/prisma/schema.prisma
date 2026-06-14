@@ -1,0 +1,125 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  MASTER_ADMIN
+  SUB_ADMIN
+  CUSTOMER
+}
+
+model User {
+  id          String   @id @default(uuid())
+
+  name        String
+  email       String   @unique
+  password    String
+
+  role        Role     @default(CUSTOMER)
+
+  approved    Boolean  @default(false)
+
+  shopId      String?
+
+  cartData    Json?
+
+  createdAt   DateTime @default(now())
+
+  orders      Order[]
+
+  shop        ShopProfile? @relation(fields: [shopId], references: [id])
+}
+
+model ShopProfile {
+  id              String   @id @default(uuid())
+
+  shopName        String
+  ownerName       String
+
+  gstNumber       String
+
+  mobileNumber    String
+  email           String
+
+  address         String
+
+  bankName        String
+  accountNumber   String
+  ifscCode        String
+
+  upiId           String
+
+  qrCode          String
+
+  logo            String?
+
+  approved        Boolean  @default(false)
+
+  requestedAt     DateTime @default(now())
+
+  approvedAt      Date Time?
+
+  createdAt       DateTime @default(now())
+
+  users           User[]
+  foods           Food[]
+}
+
+model Food {
+  id          String   @id @default(uuid())
+
+  name        String
+  description String
+  price       Float
+  category    String
+  image       String
+
+  shopId      String?
+
+  createdAt   DateTime @default(now())
+
+  shop        ShopProfile? @relation(fields: [shopId], references: [id])
+}
+
+model Order {
+  id               String   @id @default(uuid())
+
+  userId           String
+
+  items            Json
+
+  amount           Float
+
+  couponCode       String?
+
+  discountAmount   Float    @default(0)
+
+  address          Json
+
+  status           String   @default("Order Processing")
+
+  createdAt        DateTime @default(now())
+
+  user             User @relation(fields: [userId], references: [id])
+}
+
+model Coupon {
+  id              String   @id @default(uuid())
+
+  code            String   @unique
+
+  discount        Float
+
+  minOrder        Float
+
+  expiryDate      DateTime
+
+  active          Boolean  @default(true)
+
+  createdAt       DateTime @default(now())
+}
