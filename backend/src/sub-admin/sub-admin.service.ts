@@ -3,7 +3,7 @@ import {
   Injectable,
 } from '@nestjs/common';
 
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
@@ -14,7 +14,7 @@ import { Role } from '@prisma/client';
 export class SubAdminService {
   constructor(
     private prisma: PrismaService,
-  ) {}
+  ) { }
 
   private createToken(
     userId: string,
@@ -26,7 +26,7 @@ export class SubAdminService {
         role,
       },
       process.env.JWT_SECRET ||
-        'food-app-secret',
+      'food-app-secret',
       {
         expiresIn: '7d',
       },
@@ -95,9 +95,9 @@ export class SubAdminService {
 
     if (
       user.role !==
-        Role.SUB_ADMIN &&
+      Role.SUB_ADMIN &&
       user.role !==
-        Role.MASTER_ADMIN
+      Role.MASTER_ADMIN
     ) {
       throw new BadRequestException(
         'Not an admin account',

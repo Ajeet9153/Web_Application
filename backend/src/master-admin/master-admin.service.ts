@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service'; 
+import { PrismaService } from '../../prisma/prisma.service';
 import { ReviewShopDto, ReviewStatus } from './dto/create-master-admin.dto';
 
 @Injectable()
 export class MasterAdminService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   /**
    * Pulls all seller profile applications waiting for approval
@@ -39,7 +39,7 @@ export class MasterAdminService {
         // 1. Upgrade user workspace role to SUB_ADMIN and mark them approved
         await tx.user.update({
           where: { id: targetUser.id },
-          data: { 
+          data: {
             role: 'SUB_ADMIN',
             approved: true
           },

@@ -3,13 +3,13 @@ import {
   Injectable,
 } from '@nestjs/common';
 
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class CouponService {
   constructor(
     private prisma: PrismaService,
-  ) {}
+  ) { }
 
   async create(data: any) {
     const existingCoupon =

@@ -1,10 +1,11 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider   = "postgresql"
+  extensions = [postgis]
 }
 
 enum Role {
@@ -14,64 +15,64 @@ enum Role {
 }
 
 model User {
-  id          String   @id @default(uuid())
+  id String @id @default(uuid())
 
-  name        String
-  email       String   @unique
-  password    String
+  name     String
+  email    String @unique
+  password String
 
-  role        Role     @default(CUSTOMER)
+  role Role @default(CUSTOMER)
 
-  approved    Boolean  @default(false)
+  approved Boolean @default(false)
 
-  shopId      String?
+  shopId String?
 
-  cartData    Json?
+  cartData Json?
 
-  createdAt   DateTime @default(now())
+  createdAt DateTime @default(now())
 
-  orders      Order[]
+  orders Order[]
 
-  shop        ShopProfile? @relation(fields: [shopId], references: [id])
+  shop ShopProfile? @relation(fields: [shopId], references: [id])
 }
 
 model ShopProfile {
-  id              String   @id @default(uuid())
+  id String @id @default(uuid())
 
-  shopName        String
-  ownerName       String
+  shopName  String
+  ownerName String
 
-  gstNumber       String
+  gstNumber String
 
-  mobileNumber    String
-  email           String
+  mobileNumber String
+  email        String
 
-  address         String
+  address String
 
-  bankName        String
-  accountNumber   String
-  ifscCode        String
+  bankName      String
+  accountNumber String
+  ifscCode      String
 
-  upiId           String
+  upiId String
 
-  qrCode          String
+  qrCode String
 
-  logo            String?
+  logo String?
 
-  approved        Boolean  @default(false)
+  approved Boolean @default(false)
 
-  requestedAt     DateTime @default(now())
+  requestedAt DateTime @default(now())
 
-  approvedAt      Date Time?
+  approvedAt DateTime?
 
-  createdAt       DateTime @default(now())
+  createdAt DateTime @default(now())
 
-  users           User[]
-  foods           Food[]
+  users User[]
+  foods Food[]
 }
 
 model Food {
-  id          String   @id @default(uuid())
+  id String @id @default(uuid())
 
   name        String
   description String
@@ -79,47 +80,47 @@ model Food {
   category    String
   image       String
 
-  shopId      String?
+  shopId String?
 
-  createdAt   DateTime @default(now())
+  createdAt DateTime @default(now())
 
-  shop        ShopProfile? @relation(fields: [shopId], references: [id])
+  shop ShopProfile? @relation(fields: [shopId], references: [id])
 }
 
 model Order {
-  id               String   @id @default(uuid())
+  id String @id @default(uuid())
 
-  userId           String
+  userId String
 
-  items            Json
+  items Json
 
-  amount           Float
+  amount Float
 
-  couponCode       String?
+  couponCode String?
 
-  discountAmount   Float    @default(0)
+  discountAmount Float @default(0)
 
-  address          Json
+  address Json
 
-  status           String   @default("Order Processing")
+  status String @default("Order Processing")
 
-  createdAt        DateTime @default(now())
+  createdAt DateTime @default(now())
 
-  user             User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id])
 }
 
 model Coupon {
-  id              String   @id @default(uuid())
+  id String @id @default(uuid())
 
-  code            String   @unique
+  code String @unique
 
-  discount        Float
+  discount Float
 
-  minOrder        Float
+  minOrder Float
 
-  expiryDate      DateTime
+  expiryDate DateTime
 
-  active          Boolean  @default(true)
+  active Boolean @default(true)
 
-  createdAt       DateTime @default(now())
+  createdAt DateTime @default(now())
 }

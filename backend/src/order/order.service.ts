@@ -2,14 +2,14 @@ import {
   BadRequestException,
   Injectable,
 } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class OrderService {
   constructor(
     private prisma: PrismaService,
-  ) {}
+  ) { }
 
   private async getUser(
     token: string,
@@ -17,7 +17,7 @@ export class OrderService {
     const decoded: any = jwt.verify(
       token,
       process.env.JWT_SECRET ||
-        'food-app-secret',
+      'food-app-secret',
     );
 
     const user =
@@ -36,12 +36,12 @@ export class OrderService {
     return user;
   }
 
- async placeOrder(
-  token: string,
-  amount: number,
-  address: any,
-  couponCode?: string,
-){
+  async placeOrder(
+    token: string,
+    amount: number,
+    address: any,
+    couponCode?: string,
+  ) {
     const user =
       await this.getUser(token);
 

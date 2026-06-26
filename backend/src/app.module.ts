@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 
-import { PrismaModule } from './prisma/prisma.module';
+import { PrismaModule } from '../prisma/prisma.module';
 
 import { FoodModule } from './food/food.module';
 import { UserModule } from './user/user.module';
@@ -39,4 +39,4 @@ import { MasterAdminModule } from './master-admin/master-admin.module';
     MasterAdminModule,
   ],
 })
-export class AppModule {}
+export class AppModule { }

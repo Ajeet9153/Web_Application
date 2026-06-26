@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { SubAdminController } from './sub-admin.controller';
 import { SubAdminService } from './sub-admin.service';
 
-import { PrismaModule } from '../prisma/prisma.module';
+import { PrismaModule } from '../../prisma/prisma.module';
 
 @Module({
   imports: [
@@ -22,4 +22,4 @@ import { PrismaModule } from '../prisma/prisma.module';
     SubAdminService,
   ],
 })
-export class SubAdminModule {}
+export class SubAdminModule { }

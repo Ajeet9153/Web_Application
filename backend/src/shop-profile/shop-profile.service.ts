@@ -1,10 +1,10 @@
 import { Injectable, BadRequestException, ConflictException } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { RegisterShopDto } from './dto/register-shop.dto';
 
 @Injectable()
 export class ShopProfileService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   /**
    * Provisions a brand new application log queue ticket for review

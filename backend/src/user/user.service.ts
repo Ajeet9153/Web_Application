@@ -2,7 +2,7 @@ import {
   BadRequestException,
   Injectable,
 } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { Role } from '@prisma/client';
@@ -11,7 +11,7 @@ import { Role } from '@prisma/client';
 export class UserService {
   constructor(
     private prisma: PrismaService,
-  ) {}
+  ) { }
 
   private createToken(
     userId: string,
@@ -19,7 +19,7 @@ export class UserService {
     return jwt.sign(
       { id: userId },
       process.env.JWT_SECRET ||
-        'food-app-secret',
+      'food-app-secret',
       {
         expiresIn: '7d',
       },
@@ -126,7 +126,7 @@ export class UserService {
       jwt.verify(
         token,
         process.env.JWT_SECRET ||
-          'food-app-secret',
+        'food-app-secret',
       );
 
     return this.prisma.user.findUnique({
