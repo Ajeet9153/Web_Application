@@ -13,6 +13,7 @@ import { ShopProfileModule } from './shop-profile/shop-profile.module';
 
 import { SubAdminModule } from './sub-admin/sub-admin.module';
 import { MasterAdminModule } from './master-admin/master-admin.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { MasterAdminModule } from './master-admin/master-admin.module';
     SubAdminModule,
 
     MasterAdminModule,
+    AuthModule,
   ],
 })
 export class AppModule { }
